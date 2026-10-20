@@ -1,578 +1,692 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!--
-        Permet au site de s'adapter correctement
-        aux smartphones et tablettes.
-    -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Démo Positionnement HTML Slides</title>
 
-    <title>Démo Slides Horizontaux</title>
+<style>
 
-    <style>
+/*************************************************
+ RESET
+*************************************************/
 
-        /* =================================================
-           RÉINITIALISATION CSS
-           ================================================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-        }
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Segoe UI,Arial,sans-serif;
+}
 
-        html,
-        body{
-            width:100%;
-            height:100%;
-            overflow:hidden;
-            font-family:Segoe UI, Arial, sans-serif;
-        }
+/*************************************************
+ CONTENEUR DES SLIDES
+*************************************************/
 
-        /* =================================================
-           VARIABLES DE COULEUR
-           ================================================= */
+.slides{
 
-        :root{
-            --blue:#1F6AD4;
-            --orange:#FDA100;
-            --green:#27AE60;
-            --purple:#8E44AD;
-            --dark:#2C3E50;
-            --red:#E74C3C;
-        }
+    display:flex;
 
-        /* =================================================
-           CONTENEUR DES SLIDES
-           
-           display:flex permet d'aligner les slides
-           horizontalement.
-           ================================================= */
+    width:100%;
+    height:100vh;
 
-        .slides{
+    overflow-x:auto;
+    overflow-y:hidden;
 
-            display:flex;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
 
-            width:100%;
-            height:100vh;
+    scrollbar-width:none;
+}
 
-            overflow-x:auto;
-            overflow-y:hidden;
+.slides::-webkit-scrollbar{
+    display:none;
+}
 
-            /* Animation fluide de défilement */
-            scroll-behavior:smooth;
+/*************************************************
+ CHAQUE SLIDE
 
-            /* Snap automatique vers la slide la plus proche */
-            scroll-snap-type:x mandatory;
+ IMPORTANT :
+ position:relative permet ensuite
+ d'utiliser des coordonnées absolues.
+*************************************************/
 
-            /* Fluidité spécifique iPhone/iPad */
-            -webkit-overflow-scrolling:touch;
+.slide{
 
-            /* Cache la scrollbar */
-            scrollbar-width:none;
-        }
+    position:relative;
 
-        .slides::-webkit-scrollbar{
-            display:none;
-        }
+    flex:0 0 100vw;
 
-        /* =================================================
-           UNE SLIDE
-           
-           flex:0 0 100vw :
-           - ne rétrécit pas
-           - ne grandit pas
-           - largeur = largeur écran
-           ================================================= */
+    width:100vw;
+    height:100vh;
 
-        .slide{
+    scroll-snap-align:start;
 
-            flex:0 0 100vw;
+    overflow:hidden;
+}
 
-            width:100vw;
-            height:100vh;
+/*************************************************
+ COULEURS
+*************************************************/
 
-            scroll-snap-align:start;
+.s1{ background:#1F6AD4; }
+.s2{ background:#FDA100; }
+.s3{ background:#2ECC71; }
+.s4{ background:#8E44AD; }
+.s5{ background:#2C3E50; }
+.s6{ background:#E74C3C; }
 
-            display:flex;
-            justify-content:center;
-            align-items:center;
+/*************************************************
+ FLÈCHES DE NAVIGATION
+*************************************************/
 
-            text-align:center;
+.nav{
 
-            color:white;
+    position:fixed;
 
-            padding:60px;
-        }
+    top:50%;
+    transform:translateY(-50%);
 
-        .content{
-            max-width:900px;
-        }
+    width:60px;
+    height:60px;
 
-        h1{
-            font-size:clamp(2.2rem,6vw,5rem);
-            margin-bottom:20px;
-        }
+    border:none;
+    border-radius:50%;
 
-        h2{
-            font-size:clamp(1.8rem,5vw,3rem);
-            margin-bottom:20px;
-        }
+    cursor:pointer;
 
-        p{
-            font-size:clamp(1rem,2vw,1.3rem);
-            line-height:1.8;
-        }
+    color:white;
+    font-size:28px;
 
-        /* =================================================
-           COULEUR DE CHAQUE SLIDE
-           ================================================= */
+    background:rgba(0,0,0,.25);
 
-        .slide:nth-child(1){
-            background:linear-gradient(135deg,#1F6AD4,#0A3B80);
-        }
+    z-index:999;
+}
 
-        .slide:nth-child(2){
-            background:linear-gradient(135deg,#FDA100,#CA7800);
-        }
+.prev{left:15px;}
+.next{right:15px;}
 
-        .slide:nth-child(3){
-            background:linear-gradient(135deg,#27AE60,#145A32);
-        }
+/*************************************************
+ STYLE GÉNÉRAL
+*************************************************/
 
-        .slide:nth-child(4){
-            background:linear-gradient(135deg,#8E44AD,#4A235A);
-        }
+h1{
+    color:white;
+    font-size:56px;
+}
 
-        .slide:nth-child(5){
-            background:linear-gradient(135deg,#34495E,#111827);
-        }
+h2{
+    color:white;
+}
 
-        .slide:nth-child(6){
-            background:linear-gradient(135deg,#E74C3C,#922B21);
-        }
+.panel{
 
-        /* =================================================
-           FLÈCHES DE NAVIGATION
-           ================================================= */
+    border-radius:20px;
 
-        .nav-btn{
+    background:rgba(255,255,255,.15);
 
-            position:fixed;
+    backdrop-filter:blur(8px);
+}
 
-            top:50%;
-            transform:translateY(-50%);
+/*************************************************
+ SLIDE 1
+*************************************************/
 
-            width:60px;
-            height:60px;
+.logo{
 
-            border:none;
-            border-radius:50%;
+    position:absolute;
 
-            cursor:pointer;
+    left:40px;
+    top:40px;
 
-            color:white;
-            font-size:30px;
+    width:120px;
+    height:120px;
 
-            background:rgba(0,0,0,.25);
+    border-radius:25px;
 
-            backdrop-filter:blur(8px);
+    background:white;
 
-            z-index:1000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-            transition:.2s;
-        }
+    font-size:40px;
+    font-weight:bold;
 
-        .nav-btn:hover{
+    color:#1F6AD4;
+}
 
-            background:rgba(0,0,0,.45);
+.hero-title{
 
-            transform:
-                translateY(-50%)
-                scale(1.1);
-        }
+    position:absolute;
 
-        .left{
-            left:20px;
-        }
+    top:90px;
+    left:220px;
+}
 
-        .right{
-            right:20px;
-        }
+.hero-text{
 
-        /* =================================================
-           INDICATEURS EN BAS
-           ================================================= */
+    position:absolute;
 
-        .dots{
+    top:200px;
+    left:220px;
 
-            position:fixed;
+    width:500px;
 
-            bottom:25px;
+    color:white;
+    font-size:24px;
+}
 
-            left:50%;
+.hero-image{
 
-            transform:translateX(-50%);
+    position:absolute;
 
-            display:flex;
-            gap:12px;
+    right:80px;
+    top:120px;
 
-            z-index:1000;
-        }
+    width:500px;
+    height:350px;
 
-        .dot{
+    border-radius:20px;
 
-            width:14px;
-            height:14px;
+    background:rgba(255,255,255,.2);
 
-            border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-            background:rgba(255,255,255,.35);
+    color:white;
+}
 
-            transition:.3s;
-        }
+/*************************************************
+ SLIDE 2
+*************************************************/
 
-        .dot.active{
+.card{
 
-            background:white;
+    position:absolute;
 
-            transform:scale(1.5);
-        }
+    width:280px;
+    height:300px;
 
-        /* =================================================
-           MOBILE
-           ================================================= */
+    padding:20px;
 
-        @media(max-width:768px){
+    color:white;
+}
 
-            .nav-btn{
-                width:48px;
-                height:48px;
-                font-size:22px;
-            }
+.card1{
+    left:120px;
+    top:180px;
+}
 
-        }
+.card2{
+    left:470px;
+    top:180px;
+}
 
-    </style>
+.card3{
+    left:820px;
+    top:180px;
+}
 
+/*************************************************
+ SLIDE 3
+*************************************************/
+
+.kpi{
+
+    position:absolute;
+
+    width:250px;
+    height:160px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    color:white;
+}
+
+.kpi1{
+    left:100px;
+    top:180px;
+}
+
+.kpi2{
+    left:420px;
+    top:180px;
+}
+
+.kpi3{
+    left:740px;
+    top:180px;
+}
+
+.kpi4{
+    left:1060px;
+    top:180px;
+}
+
+.big-number{
+    font-size:60px;
+    font-weight:bold;
+}
+
+/*************************************************
+ SLIDE 4
+*************************************************/
+
+.timeline{
+
+    position:absolute;
+
+    left:100px;
+    top:300px;
+
+    width:1200px;
+    height:8px;
+
+    background:white;
+}
+
+.milestone{
+
+    position:absolute;
+
+    width:120px;
+
+    text-align:center;
+
+    color:white;
+}
+
+.dot{
+
+    width:24px;
+    height:24px;
+
+    border-radius:50%;
+
+    background:white;
+
+    margin:0 auto 15px;
+}
+
+/*************************************************
+ SLIDE 5
+*************************************************/
+
+.left-box{
+
+    position:absolute;
+
+    left:50px;
+    top:180px;
+
+    width:500px;
+    height:400px;
+
+    padding:30px;
+
+    color:white;
+}
+
+.right-box{
+
+    position:absolute;
+
+    right:50px;
+    top:180px;
+
+    width:500px;
+    height:400px;
+
+    padding:30px;
+
+    color:white;
+}
+
+/*************************************************
+ SLIDE 6
+*************************************************/
+
+.cta-title{
+
+    position:absolute;
+
+    top:150px;
+
+    width:100%;
+
+    text-align:center;
+}
+
+.cta-btn{
+
+    position:absolute;
+
+    left:50%;
+    top:350px;
+
+    transform:translateX(-50%);
+
+    padding:20px 50px;
+
+    border:none;
+    border-radius:50px;
+
+    background:white;
+
+    color:#E74C3C;
+
+    font-size:22px;
+    font-weight:bold;
+}
+
+</style>
 </head>
-
 <body>
 
-    <!-- =================================================
-         FLÈCHE PRÉCÉDENTE
-         ================================================= -->
-
-    <button id="prevBtn" class="nav-btn left">
-        ❮
-    </button>
-
-    <!-- =================================================
-         FLÈCHE SUIVANTE
-         ================================================= -->
-
-    <button id="nextBtn" class="nav-btn right">
-        ❯
-    </button>
-
-
-    <!-- =================================================
-         CONTENEUR DE TOUTES LES SLIDES
-         ================================================= -->
-
-    <div class="slides" id="slides">
-
-        <!-- ================= Slide 1 ================= -->
-
-        <section class="slide">
-            <div class="content">
-                <h1>Bienvenue</h1>
-                <p>
-                    Démonstration complète d'un système de
-                    slides horizontaux réalisé uniquement
-                    avec HTML, CSS et JavaScript.
-                </p>
-            </div>
-        </section>
-
-        <!-- ================= Slide 2 ================= -->
-
-        <section class="slide">
-            <div class="content">
-                <h2>100% Natif</h2>
-                <p>
-                    Aucun framework, aucune dépendance,
-                    tout repose sur les fonctionnalités
-                    modernes du navigateur.
-                </p>
-            </div>
-        </section>
-
-        <!-- ================= Slide 3 ================= -->
-
-        <section class="slide">
-            <div class="content">
-                <h2>Responsive</h2>
-                <p>
-                    La présentation fonctionne sur ordinateur,
-                    smartphone, tablette et écran tactile.
-                </p>
-            </div>
-        </section>
+<button id="prevBtn" class="nav prev">❮</button>
+<button id="nextBtn" class="nav next">❯</button>
 
-        <!-- ================= Slide 4 ================= -->
+<div class="slides" id="slides">
 
-        <section class="slide">
-            <div class="content">
-                <h2>Swipe Tactile</h2>
-                <p>
-                    Faites glisser votre doigt vers la gauche
-                    ou la droite pour changer de slide.
-                </p>
-            </div>
-        </section>
+    <!-- ===================================================
+         SLIDE 1
+         Exemple logo + titre + illustration
+         =================================================== -->
 
-        <!-- ================= Slide 5 ================= -->
+    <section class="slide s1">
 
-        <section class="slide">
-            <div class="content">
-                <h2>Navigation Clavier</h2>
-                <p>
-                    Utilisez les flèches ← et →
-                    pour vous déplacer dans la présentation.
-                </p>
-            </div>
-        </section>
+        <div class="logo">CX</div>
 
-        <!-- ================= Slide 6 ================= -->
+        <h1 class="hero-title">
+            Slide 1
+        </h1>
 
-        <section class="slide">
-            <div class="content">
-                <h1>Merci</h1>
-                <p>
-                    Fin de la démonstration.
-                </p>
-            </div>
-        </section>
+        <div class="hero-text">
+            Exemple de titre positionné à gauche et
+            illustration positionnée à droite.
+        </div>
 
-    </div>
+        <div class="hero-image">
+            Zone image
+        </div>
 
-    <!--
-        Les indicateurs (points) seront créés
-        automatiquement en JavaScript.
-    -->
-    <div class="dots" id="dots"></div>
+    </section>
 
-    <script>
 
-        /* ============================================
-           RÉCUPÉRATION DES ÉLÉMENTS HTML
-           ============================================ */
+    <!-- ===================================================
+         SLIDE 2
+         Exemple cartes
+         =================================================== -->
 
-        const slidesContainer =
-            document.getElementById("slides");
+    <section class="slide s2">
 
-        const slides =
-            document.querySelectorAll(".slide");
+        <h1 style="position:absolute;left:120px;top:70px;">
+            3 cartes
+        </h1>
 
-        const dotsContainer =
-            document.getElementById("dots");
+        <div class="card card1 panel">
+            <h2>Carte 1</h2><br>
+            Position indépendante.
+        </div>
 
-        const prevBtn =
-            document.getElementById("prevBtn");
+        <div class="card card2 panel">
+            <h2>Carte 2</h2><br>
+            Coordonnées différentes.
+        </div>
 
-        const nextBtn =
-            document.getElementById("nextBtn");
+        <div class="card card3 panel">
+            <h2>Carte 3</h2><br>
+            Même style, autre emplacement.
+        </div>
 
-        /* ============================================
-           VARIABLES GLOBALES
-           ============================================ */
+    </section>
 
-        let currentSlide = 0;
 
-        const totalSlides = slides.length;
+    <!-- ===================================================
+         SLIDE 3
+         Dashboard KPI
+         =================================================== -->
 
-        /* ============================================
-           CRÉATION AUTOMATIQUE DES POINTS
-           ============================================ */
+    <section class="slide s3">
 
-        slides.forEach((slide,index)=>{
+        <h1 style="position:absolute;left:90px;top:70px;">
+            Dashboard
+        </h1>
 
-            const dot =
-                document.createElement("div");
+        <div class="kpi kpi1 panel">
+            <div class="big-number">98%</div>
+            Satisfaction
+        </div>
 
-            dot.classList.add("dot");
+        <div class="kpi kpi2 panel">
+            <div class="big-number">12K</div>
+            Utilisateurs
+        </div>
 
-            if(index === 0){
-                dot.classList.add("active");
-            }
+        <div class="kpi kpi3 panel">
+            <div class="big-number">257</div>
+            Clients
+        </div>
 
-            /*
-                Lorsqu'on clique sur un point,
-                on va directement à la slide.
-            */
+        <div class="kpi kpi4 panel">
+            <div class="big-number">24</div>
+            Pays
+        </div>
 
-            dot.addEventListener("click",()=>{
+    </section>
 
-                currentSlide = index;
+    <!-- ===================================================
+         SLIDE 4
+         Timeline
+         =================================================== -->
 
-                goToSlide(currentSlide);
+    <section class="slide s4">
 
-            });
+        <h1 style="position:absolute;left:100px;top:80px;">
+            Timeline
+        </h1>
 
-            dotsContainer.appendChild(dot);
+        <div class="timeline"></div>
 
-        });
+        <div class="milestone" style="left:80px;top:240px;">
+            <div class="dot"></div>
+            2024
+        </div>
 
-        /* ============================================
-           TABLEAU DES POINTS
-           ============================================ */
+        <div class="milestone" style="left:380px;top:240px;">
+            <div class="dot"></div>
+            2025
+        </div>
 
-        const dots =
-            document.querySelectorAll(".dot");
+        <div class="milestone" style="left:680px;top:240px;">
+            <div class="dot"></div>
+            2026
+        </div>
 
-        /* ============================================
-           AFFICHAGE D'UNE SLIDE
-           ============================================ */
+        <div class="milestone" style="left:980px;top:240px;">
+            <div class="dot"></div>
+            2027
+        </div>
 
-        function goToSlide(index){
+    </section>
 
-            slidesContainer.scrollTo({
+    <!-- ===================================================
+         SLIDE 5
+         Comparaison
+         =================================================== -->
 
-                left:index * window.innerWidth,
+    <section class="slide s5">
 
-                behavior:"smooth"
+        <h1 style="position:absolute;left:50%;top:60px;transform:translateX(-50%);">
+            Comparaison
+        </h1>
 
-            });
+        <div class="left-box panel">
+            <h2>Solution A</h2>
+            <br>
+            ✔ Plus rapide<br><br>
+            ✔ Moins coûteuse<br><br>
+            ✔ Déploiement simple
+        </div>
 
-            updateDots();
-            updateButtons();
-        }
+        <div class="right-box panel">
+            <h2>Solution B</h2>
+            <br>
+            ✔ Plus flexible<br><br>
+            ✔ Plus puissante<br><br>
+            ✔ Plus évolutive
+        </div>
 
-        /* ============================================
-           MISE À JOUR DES POINTS EN BAS
-           ============================================ */
+    </section>
 
-        function updateDots(){
+    <!-- ===================================================
+         SLIDE 6
+         Fin
+         =================================================== -->
 
-            dots.forEach(dot=>{
+    <section class="slide s6">
 
-                dot.classList.remove("active");
+        <h1 class="cta-title">
+            Merci pour votre attention
+        </h1>
 
-            });
+        <button class="cta-btn">
+            Nous contacter
+        </button>
 
-            dots[currentSlide].classList.add("active");
-        }
+    </section>
 
-        /* ============================================
-           MASQUAGE DES FLÈCHES INUTILES
-           ============================================ */
+</div>
 
-        function updateButtons(){
+<script>
 
-            prevBtn.style.display =
-                currentSlide === 0
-                ? "none"
-                : "block";
+/********************************************************
+ CONTENEUR PRINCIPAL
+********************************************************/
 
-            nextBtn.style.display =
-                currentSlide === totalSlides - 1
-                ? "none"
-                : "block";
-        }
+const container =
+document.getElementById("slides");
 
-        /* ============================================
-           FLÈCHE SUIVANTE
-           ============================================ */
+/********************************************************
+ NOMBRE DE SLIDES
+********************************************************/
 
-        nextBtn.addEventListener("click",()=>{
+const totalSlides =
+document.querySelectorAll(".slide").length;
 
-            if(currentSlide < totalSlides - 1){
+/********************************************************
+ SLIDE COURANTE
+********************************************************/
 
-                currentSlide++;
+let currentSlide = 0;
 
-                goToSlide(currentSlide);
+/********************************************************
+ FONCTION DE NAVIGATION
+********************************************************/
 
-            }
+function goToSlide(index){
 
-        });
+    container.scrollTo({
+        left:index * window.innerWidth,
+        behavior:'smooth'
+    });
 
-        /* ============================================
-           FLÈCHE PRÉCÉDENTE
-           ============================================ */
+}
 
-        prevBtn.addEventListener("click",()=>{
+/********************************************************
+ BOUTON SUIVANT
+********************************************************/
 
-            if(currentSlide > 0){
+document
+.getElementById("nextBtn")
+.addEventListener("click",()=>{
 
-                currentSlide--;
+    if(currentSlide < totalSlides - 1){
 
-                goToSlide(currentSlide);
+        currentSlide++;
 
-            }
+        goToSlide(currentSlide);
 
-        });
+    }
 
-        /* ============================================
-           NAVIGATION AU CLAVIER
-           ============================================ */
+});
 
-        document.addEventListener("keydown",(event)=>{
+/********************************************************
+ BOUTON PRECEDENT
+********************************************************/
 
-            if(
-                event.key === "ArrowRight" &&
-                currentSlide < totalSlides - 1
-            ){
+document
+.getElementById("prevBtn")
+.addEventListener("click",()=>{
 
-                currentSlide++;
+    if(currentSlide > 0){
 
-                goToSlide(currentSlide);
-            }
+        currentSlide--;
 
-            if(
-                event.key === "ArrowLeft" &&
-                currentSlide > 0
-            ){
+        goToSlide(currentSlide);
 
-                currentSlide--;
+    }
 
-                goToSlide(currentSlide);
-            }
+});
 
-        });
+/********************************************************
+ NAVIGATION CLAVIER
+********************************************************/
 
-        /* ============================================
-           SYNCHRONISATION APRÈS UN SWIPE TACTILE
-           
-           Le navigateur gère déjà le swipe.
-           Ici on ne fait que mettre à jour
-           les boutons et les points.
-           ============================================ */
+document.addEventListener("keydown",(e)=>{
 
-        slidesContainer.addEventListener("scroll",()=>{
+    if(
+        e.key === "ArrowRight"
+        &&
+        currentSlide < totalSlides - 1
+    ){
 
-            currentSlide =
-                Math.round(
-                    slidesContainer.scrollLeft /
-                    window.innerWidth
-                );
+        currentSlide++;
 
-            updateDots();
-            updateButtons();
+        goToSlide(currentSlide);
 
-        });
+    }
 
-        /* ============================================
-           INITIALISATION
-           ============================================ */
+    if(
+        e.key === "ArrowLeft"
+        &&
+        currentSlide > 0
+    ){
 
-        updateButtons();
+        currentSlide--;
 
-    </script>
+        goToSlide(currentSlide);
+
+    }
+
+});
+
+/********************************************************
+ SYNCHRONISATION AVEC LE SWIPE TACTILE
+********************************************************/
+
+container.addEventListener("scroll",()=>{
+
+    currentSlide =
+    Math.round(
+        container.scrollLeft /
+        window.innerWidth
+    );
+
+});
+
+</script>
 
 </body>
-
 </html>
