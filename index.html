@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!--
+        Permet au site de s'adapter correctement
+        aux smartphones et tablettes.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Démo Slides Horizontaux</title>
+
+    <style>
+
+        /* =================================================
+           RÉINITIALISATION CSS
+           ================================================= */
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        html,
+        body{
+            width:100%;
+            height:100%;
+            overflow:hidden;
+            font-family:Segoe UI, Arial, sans-serif;
+        }
+
+        /* =================================================
+           VARIABLES DE COULEUR
+           ================================================= */
+
+        :root{
+            --blue:#1F6AD4;
+            --orange:#FDA100;
+            --green:#27AE60;
+            --purple:#8E44AD;
+            --dark:#2C3E50;
+            --red:#E74C3C;
+        }
+
+        /* =================================================
+           CONTENEUR DES SLIDES
+           
+           display:flex permet d'aligner les slides
+           horizontalement.
+           ================================================= */
+
+        .slides{
+
+            display:flex;
+
+            width:100%;
+            height:100vh;
+
+            overflow-x:auto;
+            overflow-y:hidden;
+
+            /* Animation fluide de défilement */
+            scroll-behavior:smooth;
+
+            /* Snap automatique vers la slide la plus proche */
+            scroll-snap-type:x mandatory;
+
+            /* Fluidité spécifique iPhone/iPad */
+            -webkit-overflow-scrolling:touch;
+
+            /* Cache la scrollbar */
+            scrollbar-width:none;
+        }
+
+        .slides::-webkit-scrollbar{
+            display:none;
+        }
+
+        /* =================================================
+           UNE SLIDE
+           
+           flex:0 0 100vw :
+           - ne rétrécit pas
+           - ne grandit pas
+           - largeur = largeur écran
+           ================================================= */
+
+        .slide{
+
+            flex:0 0 100vw;
+
+            width:100vw;
+            height:100vh;
+
+            scroll-snap-align:start;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            text-align:center;
+
+            color:white;
+
+            padding:60px;
+        }
+
+        .content{
+            max-width:900px;
+        }
+
+        h1{
+            font-size:clamp(2.2rem,6vw,5rem);
+            margin-bottom:20px;
+        }
+
+        h2{
+            font-size:clamp(1.8rem,5vw,3rem);
+            margin-bottom:20px;
+        }
+
+        p{
+            font-size:clamp(1rem,2vw,1.3rem);
+            line-height:1.8;
+        }
+
+        /* =================================================
+           COULEUR DE CHAQUE SLIDE
+           ================================================= */
+
+        .slide:nth-child(1){
+            background:linear-gradient(135deg,#1F6AD4,#0A3B80);
+        }
+
+        .slide:nth-child(2){
+            background:linear-gradient(135deg,#FDA100,#CA7800);
+        }
+
+        .slide:nth-child(3){
+            background:linear-gradient(135deg,#27AE60,#145A32);
+        }
+
+        .slide:nth-child(4){
+            background:linear-gradient(135deg,#8E44AD,#4A235A);
+        }
+
+        .slide:nth-child(5){
+            background:linear-gradient(135deg,#34495E,#111827);
+        }
+
+        .slide:nth-child(6){
+            background:linear-gradient(135deg,#E74C3C,#922B21);
+        }
+
+        /* =================================================
+           FLÈCHES DE NAVIGATION
+           ================================================= */
+
+        .nav-btn{
+
+            position:fixed;
+
+            top:50%;
+            transform:translateY(-50%);
+
+            width:60px;
+            height:60px;
+
+            border:none;
+            border-radius:50%;
+
+            cursor:pointer;
+
+            color:white;
+            font-size:30px;
+
+            background:rgba(0,0,0,.25);
+
+            backdrop-filter:blur(8px);
+
+            z-index:1000;
+
+            transition:.2s;
+        }
+
+        .nav-btn:hover{
+
+            background:rgba(0,0,0,.45);
+
+            transform:
+                translateY(-50%)
+                scale(1.1);
+        }
+
+        .left{
+            left:20px;
+        }
+
+        .right{
+            right:20px;
+        }
+
+        /* =================================================
+           INDICATEURS EN BAS
+           ================================================= */
+
+        .dots{
+
+            position:fixed;
+
+            bottom:25px;
+
+            left:50%;
+
+            transform:translateX(-50%);
+
+            display:flex;
+            gap:12px;
+
+            z-index:1000;
+        }
+
+        .dot{
+
+            width:14px;
+            height:14px;
+
+            border-radius:50%;
+
+            background:rgba(255,255,255,.35);
+
+            transition:.3s;
+        }
+
+        .dot.active{
+
+            background:white;
+
+            transform:scale(1.5);
+        }
+
+        /* =================================================
+           MOBILE
+           ================================================= */
+
+        @media(max-width:768px){
+
+            .nav-btn{
+                width:48px;
+                height:48px;
+                font-size:22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =================================================
+         FLÈCHE PRÉCÉDENTE
+         ================================================= -->
+
+    <button id="prevBtn" class="nav-btn left">
+        ❮
+    </button>
+
+    <!-- =================================================
+         FLÈCHE SUIVANTE
+         ================================================= -->
+
+    <button id="nextBtn" class="nav-btn right">
+        ❯
+    </button>
+
+
+    <!-- =================================================
+         CONTENEUR DE TOUTES LES SLIDES
+         ================================================= -->
+
+    <div class="slides" id="slides">
+
+        <!-- ================= Slide 1 ================= -->
+
+        <section class="slide">
+            <div class="content">
+                <h1>Bienvenue</h1>
+                <p>
+                    Démonstration complète d'un système de
+                    slides horizontaux réalisé uniquement
+                    avec HTML, CSS et JavaScript.
+                </p>
+            </div>
+        </section>
+
+        <!-- ================= Slide 2 ================= -->
+
+        <section class="slide">
+            <div class="content">
+                <h2>100% Natif</h2>
+                <p>
+                    Aucun framework, aucune dépendance,
+                    tout repose sur les fonctionnalités
+                    modernes du navigateur.
+                </p>
+            </div>
+        </section>
+
+        <!-- ================= Slide 3 ================= -->
+
+        <section class="slide">
+            <div class="content">
+                <h2>Responsive</h2>
+                <p>
+                    La présentation fonctionne sur ordinateur,
+                    smartphone, tablette et écran tactile.
+                </p>
+            </div>
+        </section>
+
+        <!-- ================= Slide 4 ================= -->
+
+        <section class="slide">
+            <div class="content">
+                <h2>Swipe Tactile</h2>
+                <p>
+                    Faites glisser votre doigt vers la gauche
+                    ou la droite pour changer de slide.
+                </p>
+            </div>
+        </section>
+
+        <!-- ================= Slide 5 ================= -->
+
+        <section class="slide">
+            <div class="content">
+                <h2>Navigation Clavier</h2>
+                <p>
+                    Utilisez les flèches ← et →
+                    pour vous déplacer dans la présentation.
+                </p>
+            </div>
+        </section>
+
+        <!-- ================= Slide 6 ================= -->
+
+        <section class="slide">
+            <div class="content">
+                <h1>Merci</h1>
+                <p>
+                    Fin de la démonstration.
+                </p>
+            </div>
+        </section>
+
+    </div>
+
+    <!--
+        Les indicateurs (points) seront créés
+        automatiquement en JavaScript.
+    -->
+    <div class="dots" id="dots"></div>
+
+    <script>
+
+        /* ============================================
+           RÉCUPÉRATION DES ÉLÉMENTS HTML
+           ============================================ */
+
+        const slidesContainer =
+            document.getElementById("slides");
+
+        const slides =
+            document.querySelectorAll(".slide");
+
+        const dotsContainer =
+            document.getElementById("dots");
+
+        const prevBtn =
+            document.getElementById("prevBtn");
+
+        const nextBtn =
+            document.getElementById("nextBtn");
+
+        /* ============================================
+           VARIABLES GLOBALES
+           ============================================ */
+
+        let currentSlide = 0;
+
+        const totalSlides = slides.length;
+
+        /* ============================================
+           CRÉATION AUTOMATIQUE DES POINTS
+           ============================================ */
+
+        slides.forEach((slide,index)=>{
+
+            const dot =
+                document.createElement("div");
+
+            dot.classList.add("dot");
+
+            if(index === 0){
+                dot.classList.add("active");
+            }
+
+            /*
+                Lorsqu'on clique sur un point,
+                on va directement à la slide.
+            */
+
+            dot.addEventListener("click",()=>{
+
+                currentSlide = index;
+
+                goToSlide(currentSlide);
+
+            });
+
+            dotsContainer.appendChild(dot);
+
+        });
+
+        /* ============================================
+           TABLEAU DES POINTS
+           ============================================ */
+
+        const dots =
+            document.querySelectorAll(".dot");
+
+        /* ============================================
+           AFFICHAGE D'UNE SLIDE
+           ============================================ */
+
+        function goToSlide(index){
+
+            slidesContainer.scrollTo({
+
+                left:index * window.innerWidth,
+
+                behavior:"smooth"
+
+            });
+
+            updateDots();
+            updateButtons();
+        }
+
+        /* ============================================
+           MISE À JOUR DES POINTS EN BAS
+           ============================================ */
+
+        function updateDots(){
+
+            dots.forEach(dot=>{
+
+                dot.classList.remove("active");
+
+            });
+
+            dots[currentSlide].classList.add("active");
+        }
+
+        /* ============================================
+           MASQUAGE DES FLÈCHES INUTILES
+           ============================================ */
+
+        function updateButtons(){
+
+            prevBtn.style.display =
+                currentSlide === 0
+                ? "none"
+                : "block";
+
+            nextBtn.style.display =
+                currentSlide === totalSlides - 1
+                ? "none"
+                : "block";
+        }
+
+        /* ============================================
+           FLÈCHE SUIVANTE
+           ============================================ */
+
+        nextBtn.addEventListener("click",()=>{
+
+            if(currentSlide < totalSlides - 1){
+
+                currentSlide++;
+
+                goToSlide(currentSlide);
+
+            }
+
+        });
+
+        /* ============================================
+           FLÈCHE PRÉCÉDENTE
+           ============================================ */
+
+        prevBtn.addEventListener("click",()=>{
+
+            if(currentSlide > 0){
+
+                currentSlide--;
+
+                goToSlide(currentSlide);
+
+            }
+
+        });
+
+        /* ============================================
+           NAVIGATION AU CLAVIER
+           ============================================ */
+
+        document.addEventListener("keydown",(event)=>{
+
+            if(
+                event.key === "ArrowRight" &&
+                currentSlide < totalSlides - 1
+            ){
+
+                currentSlide++;
+
+                goToSlide(currentSlide);
+            }
+
+            if(
+                event.key === "ArrowLeft" &&
+                currentSlide > 0
+            ){
+
+                currentSlide--;
+
+                goToSlide(currentSlide);
+            }
+
+        });
+
+        /* ============================================
+           SYNCHRONISATION APRÈS UN SWIPE TACTILE
+           
+           Le navigateur gère déjà le swipe.
+           Ici on ne fait que mettre à jour
+           les boutons et les points.
+           ============================================ */
+
+        slidesContainer.addEventListener("scroll",()=>{
+
+            currentSlide =
+                Math.round(
+                    slidesContainer.scrollLeft /
+                    window.innerWidth
+                );
+
+            updateDots();
+            updateButtons();
+
+        });
+
+        /* ============================================
+           INITIALISATION
+           ============================================ */
+
+        updateButtons();
+
+    </script>
+
+</body>
+
+</html>
