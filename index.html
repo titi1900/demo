@@ -5,19 +5,16 @@
 
 <meta charset="UTF-8">
 
-<!--
-    Permet au navigateur mobile d'utiliser
-    la largeur réelle de l'écran.
--->
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-<title>Présentation Responsive HTML</title>
+<title>Slides Responsive Full Screen</title>
 
 <style>
 
 /********************************************************
- RESET CSS
+ RESET
 ********************************************************/
 
 *{
@@ -35,9 +32,10 @@ body{
 }
 
 /********************************************************
- CONTENEUR HORIZONTAL DES SLIDES
+ CONTENEUR GLOBAL
 
- Chaque slide occupe un écran complet.
+ Les slides sont affichées
+ horizontalement.
 ********************************************************/
 
 .slides{
@@ -51,6 +49,7 @@ body{
     overflow-y:hidden;
 
     scroll-snap-type:x mandatory;
+
     scroll-behavior:smooth;
 
     scrollbar-width:none;
@@ -61,53 +60,33 @@ body{
 }
 
 /********************************************************
- SLIDE
+ UNE SLIDE
 
- Une slide = une largeur d'écran.
+ IMPORTANT :
+
+ La slide elle-même devient
+ le référentiel des coordonnées.
+
+ Tous les éléments utiliseront
+ position:absolute à l'intérieur.
 ********************************************************/
 
 .slide{
+
+    position:relative;
 
     flex:0 0 100vw;
 
     width:100vw;
     height:100vh;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
     scroll-snap-align:start;
-}
-
-/********************************************************
- CANVAS RESPONSIVE
-
- Astuce importante :
-
- On travaille dans une surface virtuelle
- 16/9 comparable à une slide PowerPoint.
-
- Cette zone restera proportionnelle
- sur smartphone, tablette et PC.
-********************************************************/
-
-.canvas{
-
-    position:relative;
-
-    width:min(
-        100vw,
-        calc(100vh * 16 / 9)
-    );
-
-    aspect-ratio:16 / 9;
 
     overflow:hidden;
 }
 
 /********************************************************
- COULEURS DE FOND
+ THEMES
 ********************************************************/
 
 .blue{
@@ -135,19 +114,11 @@ body{
 }
 
 /********************************************************
- ÉLÉMENTS VISUELS COMMUNS
+ TYPOGRAPHIE
+
+ clamp() adapte la taille
+ au périphérique.
 ********************************************************/
-
-.panel{
-
-    background:rgba(255,255,255,.15);
-
-    border-radius:20px;
-
-    backdrop-filter:blur(8px);
-
-    color:white;
-}
 
 h1{
 
@@ -156,8 +127,8 @@ h1{
     font-size:
         clamp(
             2rem,
-            4vw,
-            4rem
+            5vw,
+            5rem
         );
 }
 
@@ -165,7 +136,12 @@ h2{
 
     color:white;
 
-    margin-bottom:15px;
+    font-size:
+        clamp(
+            1.2rem,
+            2.5vw,
+            2rem
+        );
 }
 
 p{
@@ -173,6 +149,28 @@ p{
     color:white;
 
     line-height:1.6;
+
+    font-size:
+        clamp(
+            1rem,
+            1.3vw,
+            1.3rem
+        );
+}
+
+/********************************************************
+ COMPOSANT VITRÉ
+********************************************************/
+
+.panel{
+
+    background:
+        rgba(255,255,255,.15);
+
+    backdrop-filter:
+        blur(14px);
+
+    border-radius:20px;
 }
 
 /********************************************************
@@ -185,105 +183,84 @@ p{
 
     top:50%;
 
-    transform:translateY(-50%);
+    transform:
+        translateY(-50%);
 
-    width:60px;
-    height:60px;
+    width:56px;
+    height:56px;
 
     border:none;
 
-    cursor:pointer;
-
     border-radius:50%;
+
+    background:
+        rgba(0,0,0,.25);
 
     color:white;
 
-    background:rgba(0,0,0,.25);
-
-    font-size:28px;
+    cursor:pointer;
 
     z-index:1000;
 }
 
 .prev{
-    left:15px;
+    left:12px;
 }
 
 .next{
-    right:15px;
+    right:12px;
 }
 
 /********************************************************
- ============
  SLIDE 1
- ============
+ COUVERTURE
 ********************************************************/
-
-/*
-    Logo placé relativement à la canvas.
-*/
 
 .logo{
 
     position:absolute;
 
-    top:4%;
     left:3%;
+    top:5%;
 
-    width:8%;
-    aspect-ratio:1;
+    width:8vmin;
+    height:8vmin;
 
-    border-radius:20%;
+    min-width:60px;
+    min-height:60px;
 
     background:white;
+
+    border-radius:20%;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    font-weight:bold;
-
     color:#1F6AD4;
-}
 
-/*
-    Titre principal.
-*/
+    font-weight:bold;
+}
 
 .hero-title{
 
     position:absolute;
 
-    top:12%;
     left:15%;
+    top:12%;
 
-    width:40%;
+    width:45%;
 }
-
-/*
-    Sous-texte.
-*/
 
 .hero-text{
 
     position:absolute;
 
-    top:32%;
     left:15%;
+    top:30%;
 
     width:35%;
-
-    color:white;
-
-    font-size:1.1rem;
 }
-
-/*
-    Illustration.
-
-    En responsive elle disparaîtra
-    sur smartphone.
-*/
 
 .hero-image{
 
@@ -292,12 +269,13 @@ p{
     right:5%;
     top:15%;
 
-    width:35%;
-    height:55%;
+    width:32%;
+    height:50%;
 
-    border-radius:24px;
+    border-radius:20px;
 
-    background:rgba(255,255,255,.2);
+    background:
+        rgba(255,255,255,.20);
 
     display:flex;
     justify-content:center;
@@ -307,10 +285,8 @@ p{
 }
 
 /********************************************************
- ============
  SLIDE 2
- ============
- Cartes de présentation
+ CARDS
 ********************************************************/
 
 .cards{
@@ -322,37 +298,34 @@ p{
 
     width:90%;
 
-    display:flex;
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
 
     gap:2%;
 }
 
 .card{
 
-    flex:1;
+    padding:25px;
 
-    padding:30px;
+    color:white;
 
-    min-height:260px;
-}
-
-.card p{
-    margin-top:15px;
+    min-height:250px;
 }
 
 /********************************************************
- ============
  SLIDE 3
- ============
- Dashboard KPI
+ DASHBOARD
 ********************************************************/
 
 .kpis{
 
     position:absolute;
 
-    top:25%;
     left:5%;
+    top:25%;
 
     width:90%;
 
@@ -366,7 +339,9 @@ p{
 
 .kpi{
 
-    padding:30px;
+    padding:20px;
+
+    color:white;
 
     text-align:center;
 }
@@ -380,23 +355,14 @@ p{
             4rem
         );
 
-    color:white;
-
     font-weight:bold;
-
-    margin-bottom:15px;
 }
 
 /********************************************************
- RESPONSIVE TABLETTE / SMARTPHONE
+ MOBILE
 ********************************************************/
 
-@media(max-width:768px){
-
-    /*
-        L'illustration est masquée
-        pour laisser plus de place.
-    */
+@media(max-width:900px){
 
     .hero-image{
         display:none;
@@ -407,27 +373,24 @@ p{
     }
 
     .hero-text{
-        width:75%;
+        width:70%;
     }
-
-    /*
-        Les cartes passent
-        automatiquement en colonne.
-    */
 
     .cards{
-        flex-direction:column;
+
+        grid-template-columns:1fr;
+
+        top:20%;
     }
 
-    /*
-        Dashboard
-        2 colonnes au lieu de 4.
-    */
+    .card{
+        min-height:auto;
+    }
 
     .kpis{
 
         grid-template-columns:
-            1fr 1fr;
+        1fr 1fr;
     }
 
 }
@@ -439,14 +402,14 @@ p{
 <body>
 
 <button
-    class="nav prev"
-    id="prevBtn">
+    id="prevBtn"
+    class="nav prev">
     ❮
 </button>
 
 <button
-    class="nav next"
-    id="nextBtn">
+    id="nextBtn"
+    class="nav next">
     ❯
 </button>
 
@@ -454,462 +417,510 @@ p{
     class="slides"
     id="slides">
 
-    <!-- ==========================================
+    <!-- ========================================
          SLIDE 1
-         ========================================== -->
+         ======================================== -->
 
     <section class="slide blue">
 
-        <div class="canvas">
+        <div class="logo">
+            CX
+        </div>
 
-            <div class="logo">
-                CX
-            </div>
+        <h1 class="hero-title">
+            Cinexenic
+        </h1>
 
-            <h1 class="hero-title">
-                Cinexenic
-            </h1>
+        <div class="hero-text">
 
-            <div class="hero-text">
-                Démonstration d'une slide
-                responsive utilisant une
-                canvas 16/9 adaptable
-                à tous les terminaux.
-            </div>
+            Démonstration responsive.
 
-            <div class="hero-image">
-                Illustration
-            </div>
+            Les positions sont calculées
+            en pourcentage de l'écran.
+
+            Aucun élément n'est dépendant
+            d'une résolution fixe.
+
+        </div>
+
+        <div class="hero-image">
+
+            Illustration
 
         </div>
 
     </section>
 
-    <!-- ==========================================
+    <!-- ========================================
          SLIDE 2
-         ========================================== -->
+         ======================================== -->
 
     <section class="slide orange">
 
-        <div class="canvas">
+        <h1
+            style="
+            position:absolute;
+            top:8%;
+            left:5%;">
 
-            <h1
-                style="
-                position:absolute;
-                top:8%;
-                left:5%;">
-                Services
-            </h1>
+            Services
 
-            <div class="cards">
+        </h1>
 
-                <div class="card panel">
+        <div class="cards">
 
-                    <h2>
-                        Conseil
-                    </h2>
+            <div class="card panel">
 
-                    <p>
-                        Accompagnement
-                        stratégique et
-                        technique.
-                    </p>
-
-                </div>
-
-                <div class="card panel">
-
-                    <h2>
-                        Développement
-                    </h2>
-
-                    <p>
-                        Applications web,
-                        IA et interfaces.
-                    </p>
-
-                </div>
-
-                <div class="card panel">
-
-                    <h2>
-                        Innovation
-                    </h2>
-
-                    <p>
-                        Conception de
-                        nouveaux produits
-                        numériques.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ==========================================
-         SLIDE 3
-         ========================================== -->
-
-    <section class="slide green">
-
-        <div class="canvas">
-
-            <h1
-                style="
-                position:absolute;
-                top:8%;
-                left:5%;">
-                Dashboard
-            </h1>
-
-            <div class="kpis">
-
-                <div class="kpi panel">
-
-                    <div class="big-number">
-                        98%
-                    </div>
-
-                    Satisfaction
-
-                </div>
-
-                <div class="kpi panel">
-
-                    <div class="big-number">
-                        12K
-                    </div>
-
-                    Utilisateurs
-
-                </div>
-
-                <div class="kpi panel">
-
-                    <div class="big-number">
-                        257
-                    </div>
-
-                    Clients
-
-                </div>
-
-                <div class="kpi panel">
-
-                    <div class="big-number">
-                        24
-                    </div>
-
-                    Pays
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ==========================================
-         SLIDE 4
-         ROADMAP / TIMELINE
-         ========================================== -->
-
-    <section class="slide purple">
-
-        <div class="canvas">
-
-            <!--
-                Titre positionné en haut.
-            -->
-
-            <h1
-                style="
-                position:absolute;
-                top:8%;
-                left:5%;">
-                Roadmap
-            </h1>
-
-            <!--
-                Timeline responsive.
-
-                display:flex répartit les
-                étapes automatiquement.
-
-                Sur mobile le media-query
-                la transformera en colonne.
-            -->
-
-            <div
-                class="timeline"
-                style="
-                position:absolute;
-                top:45%;
-                left:5%;
-                width:90%;
-                display:flex;
-                justify-content:space-between;">
-
-                <div class="step">
-                    🚀<br><br>
-                    Prototype
-                </div>
-
-                <div class="step">
-                    🧪<br><br>
-                    Tests
-                </div>
-
-                <div class="step">
-                    📈<br><br>
-                    Déploiement
-                </div>
-
-                <div class="step">
-                    🌍<br><br>
-                    International
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ==========================================
-         SLIDE 5
-         COMPARATIF
-         ========================================== -->
-
-    <section class="slide dark">
-
-        <div class="canvas">
-
-            <!--
-                Le composant "compare"
-                est une grille CSS.
-
-                Desktop :
-                2 colonnes
-
-                Mobile :
-                1 colonne
-            -->
-
-            <h1
-                style="
-                position:absolute;
-                top:8%;
-                left:5%;">
-                Comparatif
-            </h1>
-
-            <div
-                class="compare"
-                style="
-                position:absolute;
-                left:5%;
-                top:25%;
-                width:90%;
-                display:grid;
-                grid-template-columns:1fr 1fr;
-                gap:3%;">
-
-                <!-- Bloc gauche -->
-
-                <div
-                    class="panel"
-                    style="padding:5%;">
-
-                    <h2>
-                        Solution A
-                    </h2>
-
-                    <p>
-                        ✔ Mise en œuvre rapide
-                    </p>
-
-                    <br>
-
-                    <p>
-                        ✔ Coût réduit
-                    </p>
-
-                    <br>
-
-                    <p>
-                        ✔ Maintenance simple
-                    </p>
-
-                </div>
-
-                <!-- Bloc droit -->
-
-                <div
-                    class="panel"
-                    style="padding:5%;">
-
-                    <h2>
-                        Solution B
-                    </h2>
-
-                    <p>
-                        ✔ Évolutivité
-                    </p>
-
-                    <br>
-
-                    <p>
-                        ✔ Architecture modulaire
-                    </p>
-
-                    <br>
-
-                    <p>
-                        ✔ Très personnalisable
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ==========================================
-         SLIDE 6
-         CONCLUSION
-         ========================================== -->
-
-    <section class="slide red">
-
-        <div class="canvas">
-
-            <!--
-                Centrage absolu dans la canvas.
-            -->
-
-            <div
-                style="
-                position:absolute;
-                left:50%;
-                top:40%;
-                transform:
-                    translate(-50%,-50%);
-                text-align:center;">
-
-                <h1>
-                    Merci !
-                </h1>
+                <h2>Conseil</h2>
 
                 <br>
 
                 <p>
-                    Démonstration HTML/CSS/JS
-                    entièrement responsive.
+                    Études,
+                    accompagnement,
+                    stratégie.
                 </p>
 
             </div>
 
-            <!--
-                Bouton CTA.
+            <div class="card panel">
 
-                Exemple de composant qui
-                reste centré quel que soit
-                l'écran.
-            -->
+                <h2>Innovation</h2>
 
-            <button
+                <br>
 
-                style="
-                position:absolute;
+                <p>
+                    IA,
+                    interfaces,
+                    nouveaux usages.
+                </p>
 
-                left:50%;
-                bottom:18%;
+            </div>
 
-                transform:
-                    translateX(-50%);
+            <div class="card panel">
 
-                border:none;
+                <h2>Développement</h2>
 
-                padding:
-                    16px 42px;
+                <br>
 
-                border-radius:50px;
+                <p>
+                    Applications web
+                    et produits numériques.
+                </p>
 
-                background:white;
-
-                color:#E74C3C;
-
-                font-weight:bold;
-
-                cursor:pointer;">
-
-                Nous contacter
-
-            </button>
+            </div>
 
         </div>
+
+    </section>
+
+    <!-- ========================================
+         SLIDE 3
+         ======================================== -->
+
+    <section class="slide green">
+
+        <h1
+            style="
+            position:absolute;
+            top:8%;
+            left:5%;">
+
+            Dashboard
+
+        </h1>
+
+        <div class="kpis">
+
+            <div class="kpi panel">
+
+                <div class="big-number">
+                    98%
+                </div>
+
+                Satisfaction
+
+            </div>
+
+            <div class="kpi panel">
+
+                <div class="big-number">
+                    12K
+                </div>
+
+                Utilisateurs
+
+            </div>
+
+            <div class="kpi panel">
+
+                <div class="big-number">
+                    257
+                </div>
+
+                Clients
+
+            </div>
+
+            <div class="kpi panel">
+
+                <div class="big-number">
+                    24
+                </div>
+
+                Pays
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================================
+         SLIDE 4
+         TIMELINE RESPONSIVE
+         ======================================== -->
+
+    <section class="slide purple">
+
+        <h1
+            style="
+            position:absolute;
+            top:8%;
+            left:5%;">
+
+            Roadmap
+
+        </h1>
+
+        <!--
+            Timeline responsive.
+
+            Utilisation de Flexbox.
+
+            Desktop :
+            affichage horizontal
+
+            Mobile :
+            affichage vertical
+            (voir media-query à ajouter)
+        -->
+
+        <div
+
+            class="timeline"
+
+            style="
+            position:absolute;
+
+            left:5%;
+            top:35%;
+
+            width:90%;
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;">
+
+            <div class="panel"
+                 style="
+                 width:22%;
+                 padding:20px;
+                 text-align:center;
+                 color:white;">
+
+                🚀<br><br>
+
+                Prototype
+
+            </div>
+
+            <div class="panel"
+                 style="
+                 width:22%;
+                 padding:20px;
+                 text-align:center;
+                 color:white;">
+
+                🧪<br><br>
+
+                Tests
+
+            </div>
+
+            <div class="panel"
+                 style="
+                 width:22%;
+                 padding:20px;
+                 text-align:center;
+                 color:white;">
+
+                📈<br><br>
+
+                Déploiement
+
+            </div>
+
+            <div class="panel"
+                 style="
+                 width:22%;
+                 padding:20px;
+                 text-align:center;
+                 color:white;">
+
+                🌍<br><br>
+
+                International
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================================
+         SLIDE 5
+         COMPARAISON RESPONSIVE
+         ======================================== -->
+
+    <section class="slide dark">
+
+        <h1
+            style="
+            position:absolute;
+            top:8%;
+            left:5%;">
+
+            Comparaison
+
+        </h1>
+
+        <!--
+            Comparatif responsive.
+
+            Desktop :
+            2 colonnes
+
+            Mobile :
+            1 colonne
+        -->
+
+        <div
+
+            class="compare"
+
+            style="
+            position:absolute;
+
+            left:5%;
+            top:25%;
+
+            width:90%;
+
+            height:55%;
+
+            display:grid;
+
+            grid-template-columns:
+            repeat(2,1fr);
+
+            gap:3%;">
+
+            <div
+                class="panel"
+                style="padding:30px;">
+
+                <h2>
+                    Solution A
+                </h2>
+
+                <br>
+
+                <p>✅ Très rapide</p>
+                <br>
+
+                <p>✅ Faible coût</p>
+                <br>
+
+                <p>✅ Déploiement simple</p>
+
+            </div>
+
+            <div
+                class="panel"
+                style="padding:30px;">
+
+                <h2>
+                    Solution B
+                </h2>
+
+                <br>
+
+                <p>✅ Plus flexible</p>
+                <br>
+
+                <p>✅ Plus modulaire</p>
+                <br>
+
+                <p>✅ Plus évolutive</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================================
+         SLIDE 6
+         CONCLUSION
+         ======================================== -->
+
+    <section class="slide red">
+
+        <!--
+            Centrage complet.
+
+            Le bloc utilise
+            transform:translate()
+            pour rester centré
+            sur n'importe quel écran.
+        -->
+
+        <div
+
+            style="
+            position:absolute;
+
+            left:50%;
+            top:40%;
+
+            transform:
+            translate(-50%,-50%);
+
+            text-align:center;
+
+            width:80%;">
+
+            <h1>
+                Merci
+            </h1>
+
+            <br>
+
+            <p>
+
+                Présentation entièrement
+                responsive basée sur
+                HTML, CSS et JavaScript.
+
+            </p>
+
+        </div>
+
+        <!--
+            Call To Action
+        -->
+
+        <button
+
+            style="
+            position:absolute;
+
+            left:50%;
+            bottom:15%;
+
+            transform:
+            translateX(-50%);
+
+            padding:
+                16px 40px;
+
+            border:none;
+
+            border-radius:50px;
+
+            font-size:1rem;
+
+            cursor:pointer;
+
+            background:white;
+
+            color:#E74C3C;
+
+            font-weight:bold;">
+
+            En savoir plus
+
+        </button>
 
     </section>
 
 </div>
 
-<!-- ==========================================
+<!-- ========================================
      JAVASCRIPT
-     ========================================== -->
+     ======================================== -->
 
 <script>
 
-/*****************************************************
- RÉCUPÉRATION DES ÉLÉMENTS
-*****************************************************/
+/************************************************
+ CONTENEUR DES SLIDES
+************************************************/
 
 const slidesContainer =
-document.getElementById("slides");
+document.getElementById(
+    "slides"
+);
+
+/************************************************
+ LISTE DES SLIDES
+************************************************/
 
 const slides =
-document.querySelectorAll(".slide");
+document.querySelectorAll(
+    ".slide"
+);
+
+/************************************************
+ BOUTONS
+************************************************/
 
 const prevBtn =
-document.getElementById("prevBtn");
+document.getElementById(
+    "prevBtn"
+);
 
 const nextBtn =
-document.getElementById("nextBtn");
+document.getElementById(
+    "nextBtn"
+);
 
-/*****************************************************
- INDEX DE LA SLIDE COURANTE
-*****************************************************/
+/************************************************
+ INDEX ACTUEL
+************************************************/
 
 let currentSlide = 0;
 
-/*****************************************************
- NOMBRE TOTAL DE SLIDES
-*****************************************************/
+/************************************************
+ NOMBRE TOTAL
+************************************************/
 
 const totalSlides =
 slides.length;
 
-/*****************************************************
- NAVIGATION PRINCIPALE
-
- Déplace horizontalement
- le conteneur de slides.
-*****************************************************/
+/************************************************
+ NAVIGATION
+************************************************/
 
 function goToSlide(index){
 
     slidesContainer.scrollTo({
 
         left:
-            index *
-            window.innerWidth,
+        index *
+        window.innerWidth,
 
         behavior:"smooth"
 
@@ -917,30 +928,37 @@ function goToSlide(index){
 
 }
 
-/*****************************************************
- MISE À JOUR DES BOUTONS
+/************************************************
+ AFFICHAGE DES FLÈCHES
 
  Cache automatiquement
- une flèche lorsqu'elle
- n'est plus utile.
-*****************************************************/
+ les flèches inutiles.
+************************************************/
 
 function updateButtons(){
 
     prevBtn.style.display =
+
         currentSlide === 0
+
         ? "none"
+
         : "block";
 
     nextBtn.style.display =
-        currentSlide === totalSlides - 1
+
+        currentSlide ===
+        totalSlides - 1
+
         ? "none"
+
         : "block";
+
 }
 
-/*****************************************************
- BOUTON SUIVANT
-*****************************************************/
+/************************************************
+ FLÈCHE SUIVANTE
+************************************************/
 
 nextBtn.addEventListener(
 "click",
@@ -962,9 +980,9 @@ nextBtn.addEventListener(
 
 });
 
-/*****************************************************
- BOUTON PRÉCÉDENT
-*****************************************************/
+/************************************************
+ FLÈCHE PRÉCÉDENTE
+************************************************/
 
 prevBtn.addEventListener(
 "click",
@@ -985,18 +1003,17 @@ prevBtn.addEventListener(
 
 });
 
-/*****************************************************
- NAVIGATION CLAVIER
-
- Compatible PC.
-*****************************************************/
+/************************************************
+ CLAVIER
+************************************************/
 
 document.addEventListener(
 "keydown",
 (e)=>{
 
     if(
-        e.key === "ArrowRight"
+        e.key ===
+        "ArrowRight"
         &&
         currentSlide <
         totalSlides - 1
@@ -1011,7 +1028,8 @@ document.addEventListener(
     }
 
     if(
-        e.key === "ArrowLeft"
+        e.key ===
+        "ArrowLeft"
         &&
         currentSlide > 0
     ){
@@ -1028,16 +1046,15 @@ document.addEventListener(
 
 });
 
-/*****************************************************
+/************************************************
  SWIPE TACTILE
 
- Le navigateur gère déjà
- le déplacement.
+ Le navigateur gère
+ déjà le déplacement.
 
- Ce code se contente de
- synchroniser le numéro
- de slide active.
-*****************************************************/
+ On se contente de
+ synchroniser l'index.
+************************************************/
 
 slidesContainer
 .addEventListener(
@@ -1045,9 +1062,11 @@ slidesContainer
 ()=>{
 
     currentSlide =
+
         Math.round(
 
-            slidesContainer.scrollLeft
+            slidesContainer
+            .scrollLeft
 
             /
 
@@ -1059,9 +1078,9 @@ slidesContainer
 
 });
 
-/*****************************************************
+/************************************************
  INITIALISATION
-*****************************************************/
+************************************************/
 
 updateButtons();
 
